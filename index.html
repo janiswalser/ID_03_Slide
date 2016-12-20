@@ -1,0 +1,77 @@
+
+
+<html>
+<head>
+    <title>Pinch Strength Position Demo</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.js"></script>
+    <script src="//js.leapmotion.com/leap-0.6.2.js"></script>
+    <script src="//js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
+    <script src="//js.leapmotion.com/leap.rigged-hand-0.1.4.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
+    <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>
+
+
+    <style class="codepen">
+        body {
+            font-family: 'Courier New', Helvetica, Arial, 'Lucida Grande', sans-serif;
+            margin: 0;
+        }
+
+        #output {
+            font-size: 50px;
+            color: #666;
+            text-align: left;
+            position: fixed;
+            bottom: 18px;
+            left: 18px;
+        }
+
+        #progress {
+            background: #005d98;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 16px;
+            width: 0%;
+        }
+
+        #bg {
+            background-color: #000;
+            width: 100%;
+            height: 100%;
+        }
+
+        img#connect-leap {
+            /* this can be removed with leapjs-plugins 0.1.4.1 */
+            max-width: 100%;
+        }
+
+        #rec {
+            background-color: #005d98;
+            height: 500px;
+            width: 10px;
+        }
+
+        #bigBar{
+            position: absolute;
+            top: 100px;
+            width: 100px;
+            height: 20px;
+            background-color: red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div id=output></div>
+<div id=progress></div>
+<div id="bigBar"></div>
+
+
+<div id=bg></div>
+</body>
+<script src="js/main.js"></script>
+
+</html>
