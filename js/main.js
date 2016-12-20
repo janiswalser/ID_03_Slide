@@ -11,6 +11,7 @@ var HandIn = false;
 
 
 var output = document.getElementById('output');
+var output2 = document.getElementById('output2');
 var progress = document.getElementById('progress');
 var background = document.getElementById("bg");
 
@@ -28,8 +29,9 @@ var distance;
 
 var controllerTest = Leap.loop(function(frame){
 
-//        console.log(HandIn);
-    output.innerHTML = 'distance:' + Math.round(distance) + '||' + 'distance:' + Math.round(saveMainValue) ;
+    output.innerHTML = 'distance:' + Math.round(distance) ;
+    output2.innerHTML = 'width:' + Math.round(saveMainValue) ;
+
 
 
 
@@ -48,16 +50,15 @@ var controllerTest = Leap.loop(function(frame){
 });
 
 
-// Sobald die Hand über der Leap ist, wird die Funktion ausgeführtund wiederholt
+
 Leap.loop({background: true}, {
 
     hand: function (hand) {
-//            console.log("handincheck" + HandIn);
         HandIn = true;
 
-        //progress.style.width = hand.pinchStrength * 100 + '%';
         posthumb = hand.fingers[0].dipPosition[0];
 
+        // defi. Finger
         thumbStart = new Vector(hand.fingers[0].dipPosition[0],hand.fingers[0].dipPosition[1],hand.fingers[0].dipPosition[2]);
         indexStart = new Vector(hand.fingers[1].dipPosition[0],hand.fingers[1].dipPosition[1],hand.fingers[1].dipPosition[2]);
         indexEnd = new Vector(hand.fingers[1].mcpPosition[0],hand.fingers[1].mcpPosition[1],hand.fingers[1].mcpPosition[2]);
@@ -67,7 +68,7 @@ Leap.loop({background: true}, {
 
         distance = lineindex.distanceFromPoint(thumbStart);
 
-        var threshold = 22;
+        var threshold = 28;
         var multiplier = 5;
 
         //enter tracking
@@ -79,6 +80,7 @@ Leap.loop({background: true}, {
             firstDistance = diffVector.length();
             console.log(posEnter);
         }
+
 
         //tracking
         if(distance < threshold && trackMovement == true){
@@ -94,56 +96,29 @@ Leap.loop({background: true}, {
             else {
                 saveMainValue = mainValue - diffLength * multiplier;
             }
-            $("#bigBar").width(saveMainValue);
+
+            // $("#bigBar").width(saveMainValue);
+            // $("#bigBar").css('backgroundColor','green');
+            $('#output').css('font-weight', 'bold');
+
+            background.style.opacity = map(saveMainValue,0,1300,0,1);
             console.log("tracking " + saveMainValue);
+            console.log(background.style.opacity);
         }
+
+
+
 
         //exit tracking
         if(distance >= threshold && trackMovement == true){
             trackMovement = false;
             mainValue = saveMainValue;
+            
+            // $("#bigBar").css('backgroundColor','red');
+            $('#output').css('font-weight', 'normal');
             console.log("exit");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-        //TAP
-        if (hand.pinchStrength <= 0.95 && pressed) {
-            pressed = false;
-            //background.style.opacity = 0;
-        }
-
-
-        if (hand.pinchStrength > 0.95 && !pressed) {
-//                toggle();
-            pressed = true;
-            // background.style.opacity = 100;
-
-        }
-
-//            function toggle() {
-//
-//                if (light) {
-//                    background.style.opacity = 0;
-//                    light = false;
-//                }
-//                else {
-//                    background.style.opacity = 100;
-//
-//                    light = true;
-//                    //window.alert("fuck");
-//                }
-//            }
 
     }
 
@@ -232,5 +207,7 @@ function vectorBetweenPoints(a,b) {
     return new Vector(vx,vy,vz);
 }
 
-
+function map(value, f1, t1, f2, t2) {
+    return f2 + (t2 - f2) * (value - f1) / (t1 - f1);
+}
 
