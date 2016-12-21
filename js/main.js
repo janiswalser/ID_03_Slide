@@ -25,6 +25,8 @@ var saveMainValue;
 var firstDistance;
 var distance;
 
+var color = 0;
+
 
 
 var controllerTest = Leap.loop(function(frame){
@@ -101,7 +103,15 @@ Leap.loop({background: true}, {
             // $("#bigBar").css('backgroundColor','green');
             $('#output').css('font-weight', 'bold');
 
-            background.style.opacity = map(saveMainValue,0,1300,0,1);
+            color = Math.round(map(saveMainValue, -20, 1200, 0, 255) );
+
+            var r = color;
+            var g = 100;
+            var b = 130;
+
+            background.style.backgroundColor = rgbToHex(r,g,b);
+
+            // background.style.opacity = map(saveMainValue,0,1300,0,1);
             console.log("tracking " + saveMainValue);
             console.log(background.style.opacity);
         }
@@ -211,3 +221,6 @@ function map(value, f1, t1, f2, t2) {
     return f2 + (t2 - f2) * (value - f1) / (t1 - f1);
 }
 
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
